@@ -19,10 +19,19 @@ class Route {
         this.method = method;
     }
 
+    /**
+     * getter of routeName
+     * @returns route name of this rpc method
+     */
     getRouteName = function () {
         return this.rName;
     }
 
+    /**
+     * execute rpc method
+     * @param {JsonRpcRequest} req - instance of JsonRpcRequest
+     * @returns {Object} - object of jsonrpc
+     */
     run = function (req) {
         if (!(req instanceof JsonRpcRequest)) {
             throw 'argument req should be instance of JsonRpcRequest';

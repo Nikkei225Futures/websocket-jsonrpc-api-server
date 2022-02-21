@@ -91,8 +91,8 @@ class Subscription{
      */
     broadCast = function(ws){
         let res = this.run();
-        console.log("subscribers");
-        console.log(this.subscribers);
+        //console.log("subscribers");
+        //console.log(this.subscribers);
 
         ws.clients.forEach(client => {
             if(this.subscribers != undefined){

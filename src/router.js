@@ -45,7 +45,7 @@ class Router{
     }
 
     /**
-     * judge the APi has subscription that named subscriptionName
+     * judge the API has subscription that named subscriptionName
      * @param {String} subscriptionName name of subscription
      * @returns if this.subscriptions has subscriptionName, return true, else false
      */
@@ -59,7 +59,12 @@ class Router{
         return subscriptionName in this.subscriptions;
     }
 
-    
+    /**
+     * send result(success) of request
+     * @param {WebSocket.sock} sock - destination sock
+     * @param {Number} id - id of jsonrpc request
+     * @param {Object} result - result of method
+     */
     sendResult = function (sock, id, result) {
         let res = {
             "jsonrpc": "2.0",
@@ -70,6 +75,13 @@ class Router{
         sock.send(JSON.stringify(res));
     }
 
+    /**
+     * send error response of request 
+     * @param {WebSocket.sock} sock - destination sock
+     * @param {Number} id - id of jssonrpc request
+     * @param {Number} code - error code
+     * @param {String} errMsg - error message
+     */
     sendError = function (sock, id, code, errMsg) {
         let res = {
             "jsonrpc": "2.0",
