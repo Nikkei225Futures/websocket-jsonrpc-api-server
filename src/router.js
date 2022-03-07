@@ -16,7 +16,7 @@ class Router{
         if(route instanceof rt.Route){
             this.routes[route.getRouteName()] = route;
         }else{
-            throw 'route should be instance of Route';
+            throw 'argument route should be instance of Route';
         }
     }
 
@@ -28,7 +28,7 @@ class Router{
         if(subscription instanceof ss.Subscription){
             this.subscriptions[subscription.getSubscriptionName()] = subscription;
         }else{
-            throw 'subscription should be instance of Subscription';
+            throw 'argument subscription should be instance of Subscription';
         }
     }
 

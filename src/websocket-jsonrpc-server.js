@@ -1,29 +1,34 @@
 server = require('ws').Server;
-ws = new server({port: 9888});
+//ws = new server({port: 9888});
+ws = new server({ port: 9888 });
 
 let uuid4 = require('uuid4');
 let isStarted = false;
-
-exports.ws = ws;
 
 const jr = require('./jsonrpc.js');
 const rter = require('./router.js');
 const methods = require('./methods.js');
 const router = rter.router;
+const cl = require('./client.js');
+const cls = require('./clients.js');
 
+const clients = cls.clients;
 
 ws.on('connection', sock => {
-    sock.id = uuid4();
 
+    sock.id = uuid4();
+    let newClient = new cl.Client(sock);
+    clients.addClient(newClient);
+    
     sock.on("message", msg => {
 
         msg = JSON.parse(msg);
         console.log(msg);
 
         let req;
-        try{
+        try {
             req = new jr.JsonRpcRequest(msg, sock.id);
-        }catch(e){
+        } catch (e) {
             console.log("error: " + e);
             router.sendError(sock, msg.id, jr.parseError, e);
             return;
@@ -34,64 +39,42 @@ ws.on('connection', sock => {
         //console.log(req);
 
         let res;
-        if(router.hasRoute(req.getMethodName())){
-            try{
+        if (router.hasRoute(req.getMethodName())) {
+            try {
                 res = router.routes[req.getMethodName()].run(req);
-            }catch(e){
+            } catch (e) {
                 console.log("error: " + e);
                 router.sendError(sock, req.getId(), jr.invalidRequest, e);
                 return;
             }
 
             router.sendResult(sock, req.getId(), res);
-        }else{
+
+        } else {
             router.sendError(sock, req.getId(), jr.methodNotFound, "method not found");
         }
 
     });
+
+    sock.on('close', () => {
+        clients.removeClient(clients.getClient(sock.id));
+    });
 });
 
-/*
-if(isStarted){
-    ws.on('connection', sock => {
-        sock.id = uuid4();
-
-        sock.on("message", msg => {
-            let req;
-            try{
-                req = new jr.JsonRpcRequest(msg, sock.id);
-            }catch(e){
-                jr.sendError(sock, msg.id, jr.parseError, "message is not parseable");
-            }
-
-            let res;
-            if(router.hasRoute(req.getMethodName())){
-                try{
-                    res = router.routes[req.getMethodName()].run(req);
-                }catch(e){
-                    router.sendError(sock, req.getRequesterId(), jr.invalidRequest, e);
-                }
-
-                router.sendResult(sock, req.getRequesterId(), res);
-            }
-
-        });
-    });
-}
-*/
 
 /**
  * start api server
- * @param {Number} port 
+ * @param {Number} portNum 
  * @returns 
  */
- async function startServer(port){
-    if(typeof port != "number"){
+function startServer(portNum) {
+    console.log(`startServer(${portNum})`);
+    if (typeof port != "number") {
         console.error("port should be number");
         return;
     }
-    server = require('ws').Server;
-    ws = new server({port: port});
+    ws = new server({ port: portNum });
+
     isStarted = true;
 }
 

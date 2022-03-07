@@ -1,3 +1,5 @@
+const clients = require('./clients.js').clients;
+
 /**
  * class of subscription
  * caution: no argument to method is arrowed
@@ -51,6 +53,10 @@ class Subscription{
             return;
         }
         this.subscribers[this.subscribers.length] = id;
+
+        let client = clients.getClient(id);
+        client.addSubscription(this.sName);
+        console.log(clients.getClient(id));
     }
 
     /**
@@ -62,6 +68,9 @@ class Subscription{
         for(let i = 0; i < this.subscribers.length; i++){
             if(this.subscribers[i] == id){
                 this.subscribers.splice(i, 1);
+                let client = clients.getClient(id);
+                client.removeSubscription(this.sName);
+                console.log(clients.getClient(id));
                 return;
             }
         }
