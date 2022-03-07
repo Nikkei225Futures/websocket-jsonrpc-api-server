@@ -10,9 +10,16 @@ const rter = require('./router.js');
 const methods = require('./methods.js');
 const router = rter.router;
 const cl = require('./client.js');
-const cls = require('./clients.js');
+const clients = require('./clients.js').clients;
+const subsciption = require('./subscription.js');
 
-const clients = cls.clients;
+//wrapper
+exports.JsonRpcRequest = jr.JsonRpcRequest;
+exports.router = router;
+exports.defaultMethods = methods;
+exports.Client = cl;
+exports.Subsciption = subsciption.Subscription;
+
 
 ws.on('connection', sock => {
 
@@ -80,3 +87,4 @@ function startServer(portNum) {
 
 exports.ws = ws;
 exports.startServer = startServer;
+

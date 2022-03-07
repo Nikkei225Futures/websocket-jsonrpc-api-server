@@ -7,7 +7,16 @@ const router = rter.router;
 exports.registerSubscriptions = registerSubscriptions;
 exports.deleteSubscriptions = deleteSubscriptions;
 exports.deleteAllSubscriptions = deleteAllSubscriptions;
-exports.getRandomValue = getRandomValue;
+
+const rs = new Route("register/subscriptions", registerSubscriptions);
+router.addRoute(rs);
+
+const dm = new Route("delete/subscriptions", deleteSubscriptions);
+router.addRoute(dm);
+
+const dam = new Route("delete/allSubscriptions", deleteAllSubscriptions);
+router.addRoute(dam);
+
 
 /**
  * for Route, register subsciption
@@ -116,15 +125,4 @@ function deleteAllSubscriptions(req){
 
     return "accepted";
 
-}
-
-/**
- * return random value, for subscription
- * @returns {Object} - random value
- */
-function getRandomValue(){
-    let res = {
-        "value": Math.floor(Math.random() * 1000)
-    }
-    return res;
 }

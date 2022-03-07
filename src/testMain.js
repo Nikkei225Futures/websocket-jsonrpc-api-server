@@ -1,26 +1,21 @@
 
 const wjs = require('./websocket-jsonrpc-server.js');
-const jr = require('./jsonrpc.js');
-
-const rt = require('./route.js');
-const ss = require('./subscription.js');
-
-const rter = require('./router.js');
-const router = rter.router;
-
-const methods = require('./methods.js');
+const router = wjs.router;
+const Subsciption = wjs.Subsciption;
 
 
-const rs = new rt.Route("register/subscriptions", methods.registerSubscriptions);
-router.addRoute(rs);
+/**
+ * return random value, for subscription
+ * @returns {Object} - random value
+ */
+ function getRandomValue(){
+  let res = {
+      "value": Math.floor(Math.random() * 1000)
+  }
+  return res;
+}
 
-const dm = new rt.Route("delete/subscriptions", methods.deleteSubscriptions);
-router.addRoute(dm);
-
-const dam = new rt.Route("delete/allSubscriptions", methods.deleteAllSubscriptions);
-router.addRoute(dam);
-
-const subscriptionRandomValue = new ss.Subscription("get.randomValue", methods.getRandomValue);
+const subscriptionRandomValue = new Subsciption("get.randomValue", getRandomValue);
 console.log(subscriptionRandomValue);
 router.addSubscription(subscriptionRandomValue);
 console.log("register: " + subscriptionRandomValue.getSubscriptionName());
