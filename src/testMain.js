@@ -20,12 +20,6 @@ console.log(subscriptionRandomValue);
 router.addSubscription(subscriptionRandomValue);
 console.log("register: " + subscriptionRandomValue.getSubscriptionName());
 
-/*
-(async() => {
-  await wjs.startServer(9888);
-})
-*/
-
 
 const randomValSubscription = () => {
     subscriptionRandomValue.run();
