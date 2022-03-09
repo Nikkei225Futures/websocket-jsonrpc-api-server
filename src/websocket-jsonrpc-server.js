@@ -28,8 +28,13 @@ ws.on('connection', sock => {
     clients.addClient(newClient);
     
     sock.on("message", msg => {
+        try{
+            msg = JSON.parse(msg);
+        }catch(e){
+            router.sendError(sock, null, jr.invalidRequest, e);
+            return;
+        }
 
-        msg = JSON.parse(msg);
         console.log(msg);
 
         let req;
