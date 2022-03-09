@@ -8,11 +8,11 @@ const Subsciption = wjs.Subsciption;
  * return random value, for subscription
  * @returns {Object} - random value
  */
- function getRandomValue(){
-  let res = {
-      "value": Math.floor(Math.random() * 1000)
-  }
-  return res;
+function getRandomValue() {
+    let res = {
+        "value": Math.floor(Math.random() * 1000)
+    }
+    return res;
 }
 
 const subscriptionRandomValue = new Subsciption("get.randomValue", getRandomValue);

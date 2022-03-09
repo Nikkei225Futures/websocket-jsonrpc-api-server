@@ -37,7 +37,7 @@ ws.on('connection', sock => {
             req = new jr.JsonRpcRequest(msg, sock.id);
         } catch (e) {
             console.log("error: " + e);
-            router.sendError(sock, msg.id, jr.parseError, e);
+            router.sendError(sock, null, jr.parseError, e);
             return;
         }
 
@@ -55,8 +55,10 @@ ws.on('connection', sock => {
                 return;
             }
 
-            router.sendResult(sock, req.getId(), res);
-
+            if(!req.getIsNotification()){
+                router.sendResult(sock, req.getId(), res);
+            }
+        
         } else {
             router.sendError(sock, req.getId(), jr.methodNotFound, "method not found");
         }

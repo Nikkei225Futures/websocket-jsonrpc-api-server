@@ -8,6 +8,7 @@ exports.registerSubscriptions = registerSubscriptions;
 exports.deleteSubscriptions = deleteSubscriptions;
 exports.deleteAllSubscriptions = deleteAllSubscriptions;
 
+//add route as default method
 const rs = new Route("register/subscriptions", registerSubscriptions);
 router.addRoute(rs);
 
