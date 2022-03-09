@@ -31,7 +31,7 @@ ws.on('connection', sock => {
         try{
             msg = JSON.parse(msg);
         }catch(e){
-            router.sendError(sock, null, jr.invalidRequest, e);
+            router.sendError(sock, null, jr.invalidRequest, e.toString());
             return;
         }
 
