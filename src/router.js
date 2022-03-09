@@ -1,5 +1,9 @@
 const rt = require('./route.js');
 const ss = require('./subscription.js');
+const logger = require('./logger.js');
+const logFile = logger.logFile;
+const errLogFile = logger.errLogFile;
+const sendLog = logger.sendLog;
 
 
 class Router{
@@ -15,6 +19,7 @@ class Router{
     addRoute = function(route){
         if(route instanceof rt.Route){
             this.routes[route.getRouteName()] = route;
+            logger.writeLog(logFile, `add route to router: ${route.getRouteName()}`);
         }else{
             throw 'argument route should be instance of Route';
         }
@@ -27,6 +32,7 @@ class Router{
     addSubscription = function(subscription){
         if(subscription instanceof ss.Subscription){
             this.subscriptions[subscription.getSubscriptionName()] = subscription;
+            logger.writeLog(logFile, `add subscription to router: ${subscription.getSubscriptionName()}`);
         }else{
             throw 'argument subscription should be instance of Subscription';
         }
@@ -53,9 +59,6 @@ class Router{
         if(typeof(subscriptionName) != "string"){
             throw 'subscriptionName should be String';
         }
-        console.log("hasSubscription");
-        console.log(this.subscriptions);
-        console.log(subscriptionName);
         return subscriptionName in this.subscriptions;
     }
 
@@ -73,6 +76,7 @@ class Router{
         };
 
         sock.send(JSON.stringify(res));
+        logger.writeLog(sendLog, `send response to client(${sock.id}): ${JSON.stringify(res)}`);
     }
 
     /**
@@ -93,6 +97,7 @@ class Router{
         };
 
         sock.send(JSON.stringify(res));
+        logger.writeLog(sendLog, `send error response to client(${sock.id}): ${JSON.stringify(res)}`);
     }
 
 }

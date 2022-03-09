@@ -1,6 +1,14 @@
+const deployPort = 9888;
 
 const wjs = require('./websocket-jsonrpc-server.js');
-wjs.startServer(9888);
+
+
+const logger = wjs.logger;
+const logFile = logger.logFile;
+const errLogFile = logger.errLogFile;
+const sendLog = logger.sendLog;
+
+wjs.startServer(deployPort);
 
 const router = wjs.router;
 const Subsciption = wjs.Subsciption;
@@ -12,15 +20,17 @@ const Subsciption = wjs.Subsciption;
  * @returns {Object} - random value
  */
 function getRandomValue() {
+    let val = Math.floor(Math.random() * 1000);
     let res = {
-        "value": Math.floor(Math.random() * 1000)
+        "value": val
     }
     return res;
 }
 
 const subscriptionRandomValue = new Subsciption("get.randomValue", getRandomValue);
-console.log(subscriptionRandomValue);
 router.addSubscription(subscriptionRandomValue);
+
+
 console.log("register: " + subscriptionRandomValue.getSubscriptionName());
 
 const randomValSubscription = () => {

@@ -1,5 +1,8 @@
 const clients = require('./clients.js').clients;
 
+const logger = require('./logger.js');
+const sendLog = logger.sendLog;
+
 /**
  * class of subscription
  * caution: no argument to method is arrowed
@@ -56,7 +59,6 @@ class Subscription{
 
         let client = clients.getClient(id);
         client.addSubscription(this.sName);
-        console.log(clients.getClient(id));
     }
 
     /**
@@ -124,6 +126,7 @@ class Subscription{
             "result": result
         }
         client.send(JSON.stringify(res));
+        logger.writeLog(sendLog, `send subscription result to client(${client.id}): ${JSON.stringify(res)}`);
     }
 }
 

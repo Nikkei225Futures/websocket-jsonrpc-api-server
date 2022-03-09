@@ -1,7 +1,6 @@
 server = require('ws').Server;
 
 let uuid4 = require('uuid4');
-let isStarted = false;
 
 const jr = require('./jsonrpc.js');
 const rter = require('./router.js');
@@ -9,6 +8,7 @@ const methods = require('./methods.js');
 const router = rter.router;
 const cl = require('./client.js');
 const subsciption = require('./subscription.js');
+const logger = require('./logger.js');
 
 //wrapper
 exports.JsonRpcRequest = jr.JsonRpcRequest;
@@ -16,6 +16,7 @@ exports.router = router;
 exports.defaultMethods = methods;
 exports.Client = cl;
 exports.Subsciption = subsciption.Subscription;
+exports.logger = logger;
 
 /**
  * start api server
@@ -23,7 +24,8 @@ exports.Subsciption = subsciption.Subscription;
  * @returns 
  */
 function startServer(portNum) {
-    console.log(`startServer(${portNum})`);
+    logger.writeLog(logger.logFile, `start server on port: ${portNum}`);
+
     if (typeof portNum != "number") {
         console.error("port number should be number");
         return;
@@ -39,6 +41,7 @@ function startServer(portNum) {
         sock.id = uuid4();
         let newClient = new cl.Client(sock);
         clients.addClient(newClient);
+        logger.writeLog(logger.logFile, `new client connected id=${sock.id}`);
 
         sock.on("message", msg => {
             try {
@@ -48,7 +51,6 @@ function startServer(portNum) {
                 return;
             }
 
-            console.log(msg);
 
             let req;
             try {
@@ -58,18 +60,16 @@ function startServer(portNum) {
                 router.sendError(sock, null, jr.parseError, e);
                 return;
             }
-
-            //console.log("req-method");
-            //console.log(req.getMethodName());
-            //console.log(req);
+            
+            logger.writeLog(logger.logFile, `message from ${sock.id} - ${JSON.stringify(msg)}`);
 
             let res;
             if (router.hasRoute(req.getMethodName())) {
                 try {
                     res = router.routes[req.getMethodName()].run(req);
                 } catch (e) {
-                    console.log("error: " + e);
                     router.sendError(sock, req.getId(), jr.invalidRequest, e);
+                    logger.writeLog(logger.errLogFile, `error occured while executing method(${req.getMethodName()}): ${e.toString()}`);
                     return;
                 }
 
@@ -79,11 +79,13 @@ function startServer(portNum) {
 
             } else {
                 router.sendError(sock, req.getId(), jr.methodNotFound, "method not found");
+                logger.writeLog(logger.sendLog, `send error to client(${sock.id}): method not found`);
             }
 
         });
 
         sock.on('close', () => {
+            logger.writeLog(logger.logFile, `client(${sock.id}) disconnected from server`);
             clients.removeClient(clients.getClient(sock.id));
         });
     });
