@@ -7,6 +7,7 @@ const logger = wjs.logger;
 const logFile = logger.logFile;
 const errLogFile = logger.errLogFile;
 const sendLog = logger.sendLog;
+logger.enableLogger();
 
 wjs.startServer(deployPort);
 
