@@ -1,5 +1,4 @@
 let dstLcl = "localhost";
-let dstRmt = "3.143.243.86"
 
 let svr = new WebSocket(`ws://${dstLcl}:9888`);
 let log = document.getElementById("log");
