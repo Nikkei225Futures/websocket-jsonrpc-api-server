@@ -7,11 +7,10 @@ class Route {
 
     constructor(rName, method) {
         if (typeof rName != "string") {
-            console.error("rName should be String");
+            throw 'argument rName should be string';
         }
         if (!(method instanceof Function)) {
-            console.error("method should be Function");
-            return;
+            throw 'argument method should be Function';
         }
 
         //privates
@@ -44,8 +43,6 @@ class Route {
             throw e;
         }
 
-        console.log("res");
-        console.log(res);
         return res;
     }
 }

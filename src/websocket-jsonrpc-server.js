@@ -30,8 +30,7 @@ function startServer(portNum) {
     logger.writeLog(logger.logFile, `start server on port: ${portNum}`);
 
     if (typeof portNum != "number") {
-        console.error("port number should be number");
-        return;
+        throw 'argument portNum should be number';
     }
 
     ws = new server({ port: portNum });
@@ -59,7 +58,6 @@ function startServer(portNum) {
             try {
                 req = new jr.JsonRpcRequest(msg, sock.id);
             } catch (e) {
-                console.log("error: " + e);
                 router.sendError(sock, null, jr.parseError, e);
                 return;
             }

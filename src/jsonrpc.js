@@ -72,8 +72,6 @@ class JsonRpcRequest{
      * @returns {Object} - parameter
      */
     getParams = function(){
-        console.log("this.params");
-        console.log(this.params);
         return this.params;
     }
 

@@ -32,8 +32,6 @@ const subscriptionRandomValue = new Subsciption("get.randomValue", getRandomValu
 router.addSubscription(subscriptionRandomValue);
 
 
-console.log("register: " + subscriptionRandomValue.getSubscriptionName());
-
 const randomValSubscription = () => {
     subscriptionRandomValue.run();
     subscriptionRandomValue.broadCast(wjs.ws);

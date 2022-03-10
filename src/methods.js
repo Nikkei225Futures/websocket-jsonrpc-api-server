@@ -32,7 +32,6 @@ router.addRoute(dam);
  * @param {JsonRpcRequest} req - message of jsonrpc request
  */
 function registerSubscriptions(req){
-    console.log("registerSubscriptions");
     let params = req.getParams();
 
     if(!(params.hasOwnProperty("subscriptions"))){
@@ -50,7 +49,6 @@ function registerSubscriptions(req){
         try{
             isValid = router.hasSubscription(params.subscriptions[i]);
         }catch(e){
-            console.log(e);
             errMsg += e + "\n";
             continue;
         }
@@ -74,7 +72,6 @@ function registerSubscriptions(req){
 }
 
 function deleteSubscriptions(req){
-    console.log("deleteSubscriptions");
     let params = req.getParams();
 
     if(!(params.hasOwnProperty("subscriptions"))){
@@ -92,7 +89,6 @@ function deleteSubscriptions(req){
         try{
             isValid = router.hasSubscription(params.subscriptions[i]);
         }catch(e){
-            console.log(e);
             errMsg += e + "\n";
             continue;
         }
@@ -114,7 +110,6 @@ function deleteSubscriptions(req){
 }
 
 function deleteAllSubscriptions(req){
-    console.log("deleteAllSubscriptions");
     let params = req.getParams();
 
     let client = clients.getClient(req.getRequesterId());

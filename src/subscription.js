@@ -16,12 +16,11 @@ class Subscription{
 
     constructor(sName, method){
         if(typeof sName != "string"){
-            console.error("sName should be String");
-            return;
+            throw 'argument sName should be string';
         }
+
         if(!(method instanceof Function)){
-            console.error("method should be Function");
-            return;
+            throw 'argument method should be Function';
         }
 
         this.sName = "subscription." + sName;
@@ -50,10 +49,8 @@ class Subscription{
      * @param {String} id - uuid of sock.id
      */
     addSubscriber = function(id){
-        console.log("add subscriber: " + id);
         if(typeof(id) != "string"){
-            console.error("id should be string");
-            return;
+            throw 'argument id should be string';
         }
         this.subscribers[this.subscribers.length] = id;
 
@@ -72,7 +69,6 @@ class Subscription{
                 this.subscribers.splice(i, 1);
                 let client = clients.getClient(id);
                 client.removeSubscription(this.sName);
-                console.log(clients.getClient(id));
                 return;
             }
         }
@@ -102,8 +98,6 @@ class Subscription{
      */
     broadCast = function(ws){
         let res = this.run();
-        //console.log("subscribers");
-        //console.log(this.subscribers);
 
         ws.clients.forEach(client => {
             if(client != undefined){

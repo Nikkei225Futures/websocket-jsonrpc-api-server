@@ -30,17 +30,17 @@ to support subscription, this api provide 3 default Route below
 # How to use
 
 ``` 
-const port = 12345;     //set your port number to deploy api server
-const wjs = require('./websocket-jsonrpc-server.js');   //import this library
+const port = 9888;  //port to deploy api
+const wjs = require('websocket-jsonrpc-api-server');    //get package
+
 const logger = wjs.logger;  //get logger
+const router = wjs.router;  //get router
+const Route = wjs.Route;    //get Route class
+const Subsciption = wjs.Subsciption;    //get Subscription class
 
-const router = wjs.router;      //get router
-const Subscription = wjs.Subscription;  //get Subscription class
-const Route = wjs.Route;        //get Route class
+logger.enableLogger();  //enableLogger, to write log, this is required
 
-//log - logger will create logger.log, error.log, send.log files under src/
-logger.enableLogger();      //enable logging
-logger.disableLogger();     //disable logging
+wjs.startServer(port);  //start server
 
 //argument of Route must be only req(object of JsonRpcRequest)
 //create Route
@@ -52,20 +52,24 @@ function hogeRoute(req){
 const myRoute = new Route("get/hogehoge", hogeRoute);   //bind route name and its method
 router.addRoute(myRoute);       //add route to router
 
-//create Subscription
-function getTime(){
-    let date = new Date();
-    return {
-        "date": date.toString();
-    }
-}
-const mySubscription = new Subscription("get.time", getTime);   //bind subscription name and its method
-router.addSubscription(mySubscription);     //add subscription to router
-const timer = () => {
-    mySubscription.broadCast();
-}
-setInterval(mySubscription, 1000);
 
-wjs.startServer(port);      //start api server
+//create Subscription
+function getRandomValue() {
+    let val = Math.floor(Math.random() * 1000);
+    let res = {
+        "value": val
+    }
+    return res;
+}
+const subscriptionRandomValue = new Subsciption("get.randomValue", getRandomValue);
+router.addSubscription(subscriptionRandomValue);
+
+
+console.log("register: " + subscriptionRandomValue.getSubscriptionName());
+
+const randomValSubscription = () => {
+    subscriptionRandomValue.broadCast(wjs.ws);
+}
+setInterval(randomValSubscription, 100);
 
 ```
