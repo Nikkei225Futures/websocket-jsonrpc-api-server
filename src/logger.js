@@ -1,6 +1,6 @@
-const logFile = "logger.log";
-const errLogFile = "error.log";
-const sendLog = "send.log";
+const logFile = "./logs/logger.log";
+const errLogFile = "./logs/error.log";
+const sendLog = "./logs/send.log";
 
 exports.logFile = logFile;
 exports.errLogFile = errLogFile;
