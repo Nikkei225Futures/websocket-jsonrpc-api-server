@@ -1,17 +1,34 @@
 {
-  "name": "src",
+  "name": "websocket-jsonrpc-api-server",
   "version": "1.0.0",
-  "description": "",
-  "main": "main.js",
+  "description": "simple websocket api server with jsonrpc for node.js",
+  "main": "websocket-jsonrpc-server.js",
+  
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo no-test-available"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  
+  "keywords": [
+    "websocket",
+    "api",
+    "server"
+  ],
+  
+  "author": "rubbishmt <mt106fd3s@gmail.com> (https://github.com/Nikkei225Futures/)",
+  "license": "MIT",
+  
   "dependencies": {
     "fs": "^0.0.1-security",
     "uuid4": "^2.0.2",
     "ws": "^8.5.0"
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nikkei225Futures/websocket-jsonrpc-api-server.git"
+  },
+
+  "bugs": {
+    "url": "https://github.com/Nikkei225Futures/websocket-jsonrpc-api-server"
   }
 }
