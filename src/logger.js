@@ -38,6 +38,12 @@ function writeLog(fileName, content){
 
 function enableLogger(){
     isAllowed = true;
+    const fs = require("fs");
+    try{
+        fs.mkdirSync('logs');
+    }catch(e){
+        writeLog(errLogFile, e.toString());
+    }
 }
 
 function disableLogger(){

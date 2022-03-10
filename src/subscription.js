@@ -106,7 +106,7 @@ class Subscription{
         //console.log(this.subscribers);
 
         ws.clients.forEach(client => {
-            if(this.subscribers != undefined){
+            if(client != undefined){
                 if(this.subscribers.includes(client.id)){
                     this.sendSubscriptionResult(client, res);
                 }
