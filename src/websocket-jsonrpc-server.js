@@ -9,16 +9,16 @@ const router = rter.router;
 const cl = require('./client.js');
 const subsciption = require('./subscription.js');
 const logger = require('./logger.js');
-const Route = require('./route.js');
+const rt = require('./route.js');
 
 //wrapper
 exports.JsonRpcRequest = jr.JsonRpcRequest;
+exports.Subsciption = subsciption.Subscription;
+exports.Route = rt.Route;
 exports.router = router;
 exports.defaultMethods = methods;
 exports.Client = cl;
-exports.Subsciption = subsciption.Subscription;
 exports.logger = logger;
-exports.Route = Route;
 
 
 /**
