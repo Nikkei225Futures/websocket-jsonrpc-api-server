@@ -49,6 +49,8 @@ wjs.startServer(deployPort);
 const router = wjs.router;
 
 //register route by bindRoute(rName: string, function(req));
+//when error, throw exception in function to bind
+//any return will be interpreted as success
 router.bindRoute("get/nhoge", (req) => {
     let params = req.getParams();
     if(!(params.hasOwnProperty('n'))){
