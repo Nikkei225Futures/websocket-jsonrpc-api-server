@@ -5,6 +5,8 @@ const logFile = logger.logFile;
 const errLogFile = logger.errLogFile;
 const sendLog = logger.sendLog;
 
+const Route = rt.Route;
+const Subscription = ss.Subscription;
 
 class Router{
     constructor(){
@@ -26,6 +28,16 @@ class Router{
     }
 
     /**
+     * bind routeName and its method + register to router
+     * @param {string} rName - name of route
+     * @param {function} method - method of route
+     */
+    bindRoute = function(rName, method){
+        let newRoute = new Route(rName, method);
+        this.addRoute(newRoute);
+    }
+
+    /**
      * add subscription to router
      * @param {ss.Subscription} subscription - instance of Subscription
      */
@@ -36,6 +48,21 @@ class Router{
         }else{
             throw 'argument subscription should be instance of Subscription';
         }
+    }
+
+    /**
+     * bind subscriptionName and its method + register to router
+     * @param {string} sName 
+     * @param {function} method 
+     * @param {Websocket} ws
+     * @param {Number} interval - interval to execute method
+     */
+    bindSubscription = function(sName, method, ws, interval){
+        let newSubscription = new Subscription(sName, method);
+        this.addSubscription(newSubscription);
+        setInterval(() => {
+            newSubscription.broadCast(ws);
+        }, interval);
     }
 
     /**

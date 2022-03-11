@@ -2,38 +2,46 @@ const deployPort = 9888;
 
 const wjs = require('./websocket-jsonrpc-server.js');
 
-
 const logger = wjs.logger;
 const logFile = logger.logFile;
 const errLogFile = logger.errLogFile;
 const sendLog = logger.sendLog;
+
+//start logging, to write log, this is required
 logger.enableLogger();
 
+//start server on your port
 wjs.startServer(deployPort);
 
+//get router
 const router = wjs.router;
-const Subsciption = wjs.Subsciption;
 
+//register route by bindRoute(rName: string, function(req));
+//when error, throw exception in function to bind
+//any return will be interpreted as success
+router.bindRoute("get/nhoge", (req) => {
+    let params = req.getParams();
+    if(!(params.hasOwnProperty('n'))){
+        throw 'parameter n should be contained into params';
+    }
 
+    let msg = "";
+    let n = Number(params.n);
+    for(let i = 0; i < n; i++){
+        msg += "hoge";
+    }
 
-/**
- * return random value, for subscription
- * @returns {Object} - random value
- */
-function getRandomValue() {
+    return {
+        "msg": msg
+    };
+
+});
+
+//register subscription by bindSubscription(sName: string, function(), ws: wjs.ws, interval: number);
+router.bindSubscription("get.randomValue", () => {
     let val = Math.floor(Math.random() * 1000);
     let res = {
-        "value": val
+        "val": val
     }
     return res;
-}
-
-const subscriptionRandomValue = new Subsciption("get.randomValue", getRandomValue);
-router.addSubscription(subscriptionRandomValue);
-
-
-const randomValSubscription = () => {
-    subscriptionRandomValue.run();
-    subscriptionRandomValue.broadCast(wjs.ws);
-}
-setInterval(randomValSubscription, 100);
+}, wjs.ws, 1000);

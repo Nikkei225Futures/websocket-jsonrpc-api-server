@@ -30,46 +30,52 @@ to support subscription, this api provide 3 default Route below
 # How to use
 
 ``` 
-const port = 9888;  //port to deploy api
-const wjs = require('websocket-jsonrpc-api-server');    //get package
+const deployPort = 9888;
 
-const logger = wjs.logger;  //get logger
-const router = wjs.router;  //get router
-const Route = wjs.Route;    //get Route class
-const Subsciption = wjs.Subsciption;    //get Subscription class
+const wjs = require('websocket-jsonrpc-api-server');
 
-logger.enableLogger();  //enableLogger, to write log, this is required
+const logger = wjs.logger;
+const logFile = logger.logFile;
+const errLogFile = logger.errLogFile;
+const sendLog = logger.sendLog;
 
-wjs.startServer(port);  //start server
+//start logging, to write log, this is required
+logger.enableLogger();
 
-//argument of Route must be only req(object of JsonRpcRequest)
-//create Route
-function hogeRoute(req){
-    return {
-        "msg": "hogehoge"
+//start server on your port
+wjs.startServer(deployPort);
+
+//get router
+const router = wjs.router;
+
+//register route by bindRoute(rName: string, function(req));
+//when error, throw exception in function to bind
+//any return will be interpreted as success
+router.bindRoute("get/nhoge", (req) => {
+    let params = req.getParams();
+    if(!(params.hasOwnProperty('n'))){
+        throw 'parameter n should be contained into params';
     }
-}
-const myRoute = new Route("get/hogehoge", hogeRoute);   //bind route name and its method
-router.addRoute(myRoute);       //add route to router
 
+    let msg = "";
+    let n = Number(params.n);
+    for(let i = 0; i < n; i++){
+        msg += "hoge";
+    }
 
-//create Subscription
-function getRandomValue() {
+    return {
+        "msg": msg
+    };
+
+});
+
+//register subscription by bindSubscription(sName: string, function(), ws: wjs.ws, interval: number);
+router.bindSubscription("get.randomValue", () => {
     let val = Math.floor(Math.random() * 1000);
     let res = {
-        "value": val
+        "val": val
     }
     return res;
-}
-const subscriptionRandomValue = new Subsciption("get.randomValue", getRandomValue);
-router.addSubscription(subscriptionRandomValue);
-
-
-console.log("register: " + subscriptionRandomValue.getSubscriptionName());
-
-const randomValSubscription = () => {
-    subscriptionRandomValue.broadCast(wjs.ws);
-}
-setInterval(randomValSubscription, 100);
+}, wjs.ws, 1000);
 
 ```
