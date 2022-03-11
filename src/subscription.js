@@ -52,6 +52,11 @@ class Subscription{
         if(typeof(id) != "string"){
             throw 'argument id should be string';
         }
+
+        if(this.subscribers.includes(id)){
+            throw `${id} has been already registered.`
+        }
+        
         this.subscribers[this.subscribers.length] = id;
 
         let client = clients.getClient(id);
