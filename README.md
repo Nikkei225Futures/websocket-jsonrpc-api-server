@@ -9,7 +9,7 @@ easily build a websocket server with jsonrpc.
 ## default Route
 to support subscription, this api provide 3 default Route below
  - "register/subscriptions": use when client subscribe some subscriptions.  
-    request/responce should be like   
+    request/response should be like   
     ``
     --> {"jsonrpc": "2.0", "id": 0, "method": "register/subscriptions","params": {"subscriptions": ["your.subscription.name1", "your,subscription.name2"]}}
     ``
@@ -19,7 +19,7 @@ to support subscription, this api provide 3 default Route below
     ``
 
  - "delete/subscriptions": use when client unsubscribe some subscriptions.  
-    request/responce should be like   
+    request/response should be like   
     ``
     --> {"jsonrpc": "2.0", "id": 1, "method": "delete/subscriptions","params": {"subscriptions": ["your.subscription.name1", "your,subscription.name2"]}}
     ``
@@ -29,11 +29,11 @@ to support subscription, this api provide 3 default Route below
     ``
 
  - "delete/allSubscriptions": use when client unsubscribe all subscriptions.  
-    request/responce should be like   
+    request/response should be like   
     ``
     --> {"jsonrpc": "2.0", "id": 2, "method": "delete/allSubscriptions","params": {}}
     ``
-    
+
     ``
     <-- {"jsonprc": "2.0", "id": 2, "result": "accepted"}   //when request is not notification(= when field 'id' is included)
     ``
