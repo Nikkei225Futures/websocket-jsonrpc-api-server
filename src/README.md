@@ -3,28 +3,30 @@ api server with websocket and jsonrpc.
 easily build a websocket server with jsonrpc.  
 
 # this will provide
-- request - response like api - called Route in this api
-- subscription api - called Subscription in this api
-
-subscription is used to broadcast some continuous data to client who are subscribed
+- request/response like api - called Route in this api
+- subscription api - used to broadcast some continuous data to client who are subscribing.
 
 ## default Route
 to support subscription, this api provide 3 default Route below
  - "register/subscriptions": use when client subscribe some subscriptions.  
-    request should be like   
+    request/responce should be like   
     ``
-    {"jsonrpc": "2.0","method": "register/subscriptions","params": {"subscriptions": ["your.subscription.name1", "your,subscription.name2"]}}
+    --> {"jsonrpc": "2.0", "id": 0, "method": "register/subscriptions","params": {"subscriptions": ["your.subscription.name1", "your,subscription.name2"]}}
+    <-- {"jsonrpc":"2.0", "id": 0, "result": "accepted"}    //when request is not notification(= when field 'id' is included)
     ``
 
- - "delete/subscriptions": use when client unsubscribe some subscriptions.
-    request should be like  
+ - "delete/subscriptions": use when client unsubscribe some subscriptions.  
+    request/responce should be like   
     ``
-    {"jsonrpc": "2.0","method": "delete/subscriptions","params": {"subscriptions": ["your.subscription.name1", "your,subscription.name2"]}}
+    --> {"jsonrpc": "2.0", "id": 1, "method": "delete/subscriptions","params": {"subscriptions": ["your.subscription.name1", "your,subscription.name2"]}}
+    <-- {"jsonrpc": "2.0", "id": 1, "result": "accepted"}   //when request is not notification(= when field 'id' is included)
     ``
- - "delete/allSubscriptions": use when client unsubscribe all subscriptions.
-    request should be like   
+
+ - "delete/allSubscriptions": use when client unsubscribe all subscriptions.  
+    request/responce should be like   
     ``
-    {"jsonrpc": "2.0","method": "delete/allSubscriptions","params": {}}
+    --> {"jsonrpc": "2.0", "id": 2, "method": "delete/allSubscriptions","params": {}}
+    <-- {"jsonprc": "2.0", "id": 2, "result": "accepted"}   //when request is not notification(= when field 'id' is included)
     ``
 
 # How to use
