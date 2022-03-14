@@ -38,6 +38,7 @@ router.bindRoute("get/nhoge", (req) => {
 });
 
 //register subscription by bindSubscription(sName: string, function(), ws: wjs.ws, interval: number);
+//subscription name will be "subscription.get.randomValue"
 router.bindSubscription("get.randomValue", () => {
     let val = Math.floor(Math.random() * 1000);
     let res = {
@@ -45,3 +46,8 @@ router.bindSubscription("get.randomValue", () => {
     }
     return res;
 }, 1000);
+
+setTimeout( () => {
+    router.unbindSubscription("subscription.get.randomValue");  // delete subscription dynamically
+    router.unbindRoute("get/nhoge");    //delete route dynamically
+}, 30000);

@@ -38,6 +38,21 @@ class Router{
     }
 
     /**
+     * delete route from router
+     * @param {String} rName - name of route
+     * @returns 
+     */
+    unbindRoute = function(rName){
+        if(this.hasRoute(rName)){
+            delete this.routes[rName];
+            logger.writeLog(logFile, `unbindRoute: route(${rName}) is deleted from router`);
+        }else{
+            logger.writeLog(errLogFile, `unbindRoute route(${rName} is not found.)`);
+            return false;
+        }
+    }
+
+    /**
      * add subscription to router
      * @param {ss.Subscription} subscription - instance of Subscription
      */
@@ -61,8 +76,27 @@ class Router{
         let newSubscription = new Subscription(sName, method);
         this.addSubscription(newSubscription);
         setInterval(() => {
-            newSubscription.broadCast();
+            newSubscription.broadCastResult();
         }, interval);
+    }
+
+    /**
+     * delete specified subscription from router
+     * @param {String} sName - name of subscription
+     * @returns 
+     */
+    unbindSubscription = function(sName){
+        if(this.hasSubscription(sName)){
+
+            const targetSubscription = this.subscriptions[sName];
+            logger.writeLog(logFile, `unbindSubscription: subscription(${sName}) is deleted from router`);
+
+            targetSubscription.destroy();
+            delete this.subscriptions[sName];
+        }else{
+            logger.writeLog(errLogFile, `unbindSubscription: subscription(${sName} is not found.)`);
+            return false;
+        }
     }
 
     /**

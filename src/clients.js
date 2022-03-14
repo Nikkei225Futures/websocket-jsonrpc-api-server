@@ -67,7 +67,6 @@ class Clients {
         }
 
         if(this.clients.hasOwnProperty(id)){
-            console.log(this.clients[id]);
             return this.clients[id];
         }else{
             console.log("false");

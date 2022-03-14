@@ -63,6 +63,17 @@ class Subscription{
         client.addSubscription(this.sName);
     }
 
+    destroy = function(){
+        
+        for(let i = 0; i < this.subscribers.length; i++){
+            let client = clients.getClient(this.subscribers[i]);
+            client.removeSubscription(this.sName);
+        }
+
+        this.run = () => {};
+        this.broadCast = () => {};
+    }
+
     /**
      * remove subscriber of subscription
      * @param {Number} id uuid of sock.id
@@ -98,29 +109,37 @@ class Subscription{
     }
 
     /**
-     * send same data to some clients as subscription
-     * @param {WebSocket} ws 
+     * send subscription result to client
      */
-    broadCast = function(ws){
+    broadCastResult = function(){
         let res = this.run();
+        this.broadCast(res);
+    }
 
+    /**
+     * send some notice fo client
+     * @param {string} str 
+     */
+    broadCastNotice = function(str){
+        if(typeof(str) != "string"){
+            throw 'argument of broadCastNotice should be string';
+        }
+        const notice = {"notice": str};
+        this.broadCast(notice);
+    }
+
+    /**
+     * send message to client
+     * @param {any} content - content to send
+     */
+    broadCast = function(content){
         for(let i = 0; i < this.subscribers.length; i++){
             const client = clients.getClient(this.subscribers[i]);
             //if client exists
             if(client != false){
-                this.sendSubscriptionResult(client.sock, res);
+                this.sendSubscriptionResult(client.sock, content);
             }
         }
-
-        /*
-        ws.clients.forEach(client => {
-            if(client != undefined){
-                if(this.subscribers.includes(client.id)){
-                    this.sendSubscriptionResult(client, res);
-                }
-            }
-        });
-        */
     }
 
     /**
