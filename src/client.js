@@ -6,7 +6,7 @@ class Client {
         }
         
         this.id = socket.id;
-
+        this.sock = socket;
         this.subscriptions  = [];
 
     }

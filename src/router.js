@@ -57,11 +57,11 @@ class Router{
      * @param {Websocket} ws
      * @param {Number} interval - interval to execute method
      */
-    bindSubscription = function(sName, method, ws, interval){
+    bindSubscription = function(sName, method, interval){
         let newSubscription = new Subscription(sName, method);
         this.addSubscription(newSubscription);
         setInterval(() => {
-            newSubscription.broadCast(ws);
+            newSubscription.broadCast();
         }, interval);
     }
 

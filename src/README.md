@@ -87,6 +87,6 @@ router.bindSubscription("get.randomValue", () => {
         "val": val
     }
     return res;
-}, wjs.ws, 1000);
+}, 1000);
 
 ```

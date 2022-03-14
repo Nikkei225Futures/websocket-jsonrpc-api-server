@@ -104,6 +104,15 @@ class Subscription{
     broadCast = function(ws){
         let res = this.run();
 
+        for(let i = 0; i < this.subscribers.length; i++){
+            const client = clients.getClient(this.subscribers[i]);
+            //if client exists
+            if(client != false){
+                this.sendSubscriptionResult(client.sock, res);
+            }
+        }
+
+        /*
         ws.clients.forEach(client => {
             if(client != undefined){
                 if(this.subscribers.includes(client.id)){
@@ -111,6 +120,7 @@ class Subscription{
                 }
             }
         });
+        */
     }
 
     /**

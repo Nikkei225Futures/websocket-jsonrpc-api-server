@@ -65,9 +65,15 @@ class Clients {
         if(typeof id != "string"){
             throw 'argument id should be string';
         }
-        return this.clients[id];
-    }
 
+        if(this.clients.hasOwnProperty(id)){
+            console.log(this.clients[id]);
+            return this.clients[id];
+        }else{
+            console.log("false");
+            return false;
+        }
+    }
 }
 
 const clients = new Clients();
