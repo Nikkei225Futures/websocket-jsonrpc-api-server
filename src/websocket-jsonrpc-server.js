@@ -69,7 +69,7 @@ function startServer(portNum) {
                 try {
                     res = router.routes[req.getMethodName()].run(req);
                 } catch (e) {
-                    router.sendError(sock, req.getId(), jr.invalidRequest, e);
+                    router.sendError(sock, req.getId(), jr.internalError, e);
                     logger.writeLog(logger.errLogFile, `error occured while executing method(${req.getMethodName()}): ${e.toString()}`);
                     return;
                 }
