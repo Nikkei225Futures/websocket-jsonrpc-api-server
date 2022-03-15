@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "websocket-jsonrpc-api-server": "^2.2.1"
+  }
+}
