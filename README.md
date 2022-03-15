@@ -44,7 +44,7 @@ to support subscription, this api provide 3 default Route below
 const deployPort = 9888;
 
 const { EventEmitter } = require('events');
-const wjs = require('./websocket-jsonrpc-api-server');
+const wjs = require('websocket-jsonrpc-api-server');
 
 const logger = wjs.logger;
 const logFile = logger.logFile;
