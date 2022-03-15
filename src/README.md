@@ -44,7 +44,7 @@ to support subscription, this api provide 3 default Route below
 const deployPort = 9888;
 
 const { EventEmitter } = require('events');
-const wjs = require('./websocket-jsonrpc-server.js');
+const wjs = require('./websocket-jsonrpc-api-server');
 
 const logger = wjs.logger;
 const logFile = logger.logFile;
@@ -108,12 +108,13 @@ setInterval( () => {
     timeEvent.emit('result');
 }, 1000);
 
-/*
+//unbind subscription and routes dynamically
 setTimeout( () => {
+    timeEvent.emit('notice', "subscription.get.currentTime is deleted");
+    router.unbindSubscription('subscription.get.currentTime');
     router.unbindSubscription("subscription.get.randomValue");  // delete subscription dynamically
     router.unbindRoute("get/nhoge");    //delete route dynamically
 }, 30000);
-*/
 
 
 ```
