@@ -1,5 +1,6 @@
 const deployPort = 9888;
 
+const { EventEmitter } = require('events');
 const wjs = require('./websocket-jsonrpc-server.js');
 
 const logger = wjs.logger;
@@ -39,7 +40,7 @@ router.bindRoute("get/nhoge", (req) => {
 
 //register subscription by bindSubscription(sName: string, function(), ws: wjs.ws, interval: number);
 //subscription name will be "subscription.get.randomValue"
-router.bindSubscription("get.randomValue", () => {
+router.bindSubscriptionByInterval("get.randomValue", () => {
     let val = Math.floor(Math.random() * 1000);
     let res = {
         "val": val
@@ -47,7 +48,26 @@ router.bindSubscription("get.randomValue", () => {
     return res;
 }, 1000);
 
+
+const timeEvent = new EventEmitter();
+/**
+ * register subscription by bindSubscriptionByEvent(sName, function, EventEmitter);
+ * when eventEmitter.emit('result') -> execute registered method and broadcast to subscriber;
+ * when eventEmitter.emit('notice', arg) -> broadcast notification to subscriber;
+ */
+router.bindSubscriptionByEvent("get.currentTime", () => {
+    const currentTime = Date.now().toString();
+    return {"t": currentTime};
+}, timeEvent);
+
+//emit event to excecute subscription method
+setInterval( () => {
+    timeEvent.emit('result');
+}, 1000);
+
+/*
 setTimeout( () => {
     router.unbindSubscription("subscription.get.randomValue");  // delete subscription dynamically
     router.unbindRoute("get/nhoge");    //delete route dynamically
 }, 30000);
+*/

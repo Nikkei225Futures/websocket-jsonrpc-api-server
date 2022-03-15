@@ -3,6 +3,8 @@ const clients = require('./clients.js').clients;
 const logger = require('./logger.js');
 const sendLog = logger.sendLog;
 
+const EventEmitter = require('events');
+
 /**
  * class of subscription
  * caution: no argument to method is arrowed
@@ -26,6 +28,7 @@ class Subscription{
         this.sName = "subscription." + sName;
         this.subscribers = [];
         this.method = method;
+        this.eventEmitter = undefined;
     }
 
     /**
@@ -63,6 +66,9 @@ class Subscription{
         client.addSubscription(this.sName);
     }
 
+    /**
+     * disable this subscription, used when unbindSubscription
+     */
     destroy = function(){
         
         for(let i = 0; i < this.subscribers.length; i++){
@@ -139,6 +145,18 @@ class Subscription{
             if(client != false){
                 this.sendSubscriptionResult(client.sock, content);
             }
+        }
+    }
+
+    /**
+     * register event emitter to this subscrition
+     * @param {EventEmitter} emitter - should be instance of EventEmitter
+     */
+    registerEventEmitter = function(emitter){
+        if(emitter instanceof EventEmitter){
+            this.eventEmitter = emitter;
+        }else{
+            throw 'argument emitter should be instance of EventEmitter';
         }
     }
 

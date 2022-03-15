@@ -5,6 +5,8 @@ const logFile = logger.logFile;
 const errLogFile = logger.errLogFile;
 const sendLog = logger.sendLog;
 
+const EventEmitter = require('events');
+
 const Route = rt.Route;
 const Subscription = ss.Subscription;
 
@@ -66,18 +68,40 @@ class Router{
     }
 
     /**
-     * bind subscriptionName and its method + register to router
+     * bind subscription to router
+     * broadcast result by interval
      * @param {string} sName 
      * @param {function} method 
-     * @param {Websocket} ws
      * @param {Number} interval - interval to execute method
      */
-    bindSubscription = function(sName, method, interval){
+    bindSubscriptionByInterval = function(sName, method, interval){
         let newSubscription = new Subscription(sName, method);
         this.addSubscription(newSubscription);
         setInterval(() => {
             newSubscription.broadCastResult();
         }, interval);
+    }
+
+    /**
+     * bind subscription to router
+     * broadcast result by event('result', or 'notice'(with arg))
+     * @param {String} sName 
+     * @param {Function} method 
+     * @param {EventEmitter} eventEmitter 
+     */
+    bindSubscriptionByEvent = function(sName, method, eventEmitter){
+        let newSubscription = new Subscription(sName, method);
+        this.addSubscription(newSubscription);
+        newSubscription.registerEventEmitter(eventEmitter);
+        
+        eventEmitter.on('result', () => {
+            newSubscription.broadCastResult();
+        });
+
+        eventEmitter.on('notice', (arg) => {
+            newSubscription.broadCastNotice(arg);
+        });
+
     }
 
     /**
