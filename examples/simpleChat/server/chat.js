@@ -8,6 +8,13 @@ class Chat{
     constructor(time, requester, talk){
         this.time = time;
         this.requester = requester;
+
+        if(talk.length > 140){
+            throw 'length of string must be under 140';
+        }else if(talk.length == 0){
+            throw 'input something...';
+        }
+
         this.talk = talk;
     }
 

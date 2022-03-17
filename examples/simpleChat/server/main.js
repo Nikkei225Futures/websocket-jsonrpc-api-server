@@ -65,7 +65,8 @@ router.bindRoute("post/chat", (req) => {
     let chat;
     if(params.hasOwnProperty('talk')){
         if(typeof(params.talk) == "string"){
-            chat = new Chat(time, requester, params.talk);
+            const name = getShortName(requester);
+            chat = new Chat(time, name, params.talk);
         }else{
             throw 'params.talk should be string';
         }
@@ -83,3 +84,8 @@ router.bindRoute("post/chat", (req) => {
 router.bindSubscriptionByEvent("chat", () => {
     return chats[chats.length-1].toString();
 }, chatEvent);
+
+function getShortName(uuid){
+    const token = uuid.split('-');
+    return token[0];
+}

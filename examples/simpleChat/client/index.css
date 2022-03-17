@@ -1,0 +1,21 @@
+html{
+    height: 95%;
+    margin: 0;
+}
+
+body{
+    height: 100%;
+    margin: 0;
+    background-color: rgba(170, 170, 170, 0.63);
+}
+
+#chat-body{
+    height: 80%;
+    overflow-y: scroll;
+}
+
+#chat{
+    width: 50%;
+    margin-top: 5px;
+    margin-left: 1%;
+}

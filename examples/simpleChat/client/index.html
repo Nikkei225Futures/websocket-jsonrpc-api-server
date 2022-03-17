@@ -1,8 +1,21 @@
 <!DOCTYPE html>
 <head>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    hello
-    <p id = "log"></p>
+
+    <p id = "title">Simple Chat</p>
+    <div id = 'chat-body'>
+        <p id = "log"></p>
+    </div>
+    
+    
+    <input type="text" id="chat">
+    <input type="submit" id="button-chat" value="send" onclick="sendBtnPush()" onkeydown="sendBtnKeyPush()">
+    <div>
+        <p id = 'error-log'>
+        </p>
+    </div>
+
     <script type="text/javascript" src="index.js"></script>
 </body>

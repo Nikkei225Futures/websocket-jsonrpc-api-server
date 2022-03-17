@@ -19,20 +19,35 @@ api.addEventListener("message", msg => {
 
     //if not subscription
     if(msg.hasOwnProperty('id')){
-        if(msg.id == idGetRecent){
-            let recents = msg.result.chats;
-            console.warn(recents);
-
-            for(let i = 0; i < recents.length; i++){
-                log.innerHTML += recents[i] + "<br>";
+        //if request success
+        if(msg.hasOwnProperty('result')){
+            if(msg.id == idGetRecent){
+                let recents = msg.result.chats;
+                console.warn(recents);
+    
+                for(let i = 0; i < recents.length; i++){
+                    log.innerHTML += recents[i] + "<br>";
+                }
+    
+            }else if(msg.id == idPostChat){
+                const notification = msg.result;
+                console.warn(notification);
+    
+            }else if(msg.id == idSubscribe){
+                console.warn(msg.result);
             }
 
-        }else if(msg.id == idPostChat){
-            const notification = msg.result;
-            console.warn(notification);
-        }else if(msg.id == idSubscribe){
-            console.warn(msg.result);
+        //if request failed
+        }else if(msg.hasOwnProperty('error')){
+            const errMsg = msg.error.message;
+            let errLog = document.getElementById('error-log');
+            errLog.innerHTML = errMsg;
+            //delete err meg after 5sec
+            setTimeout(() => {
+                errLog.innerHTML = "";
+            }, 5000);
         }
+
     }
 
     //if subscription result
@@ -41,6 +56,10 @@ api.addEventListener("message", msg => {
             const result = msg.result;
             console.warn("new chat: " + result);
             log.innerHTML += result + "<br>";
+            
+            //scroll to under 
+            const chatBody = document.getElementById('chat-body');
+            chatBody.scrollTop = chatBody.scrollHeight;
         }
     }
 
@@ -84,4 +103,17 @@ function postChat(str){
        }
     }
     api.send(JSON.stringify(req));
+}
+
+//func for front events
+function sendBtnPush(){
+    let inputText = document.getElementById('chat');
+    postChat(inputText.value);
+    inputText.value = "";
+}
+
+window.document.onkeydown = function(e){
+    if(e.key === 'Enter'){
+        sendBtnPush();
+    }
 }
