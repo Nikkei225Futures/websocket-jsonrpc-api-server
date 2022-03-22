@@ -2,7 +2,7 @@
 api server with websocket and jsonrpc.  
 easily build a websocket server with jsonrpc.  
 
-# this will provide
+# this provides
 - request/response like api - called Route in this api
 - subscription api - used to broadcast some continuous data to client who are subscribing.
 
