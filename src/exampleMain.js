@@ -11,8 +11,11 @@ const sendLog = logger.sendLog;
 //start logging, to write log, this is required
 logger.enableLogger();
 
+const pathCert = "./certs/selfCert.pem";
+const pathKey = "./certs/selfKey.pem";
 //start server on your port
 wjs.startServer(deployPort);
+//wjs.startSecureServer(pathCert, pathKey);
 
 //get router
 const router = wjs.router;
@@ -65,11 +68,13 @@ setInterval( () => {
     timeEvent.emit('result');
 }, 1000);
 
-
+/**
 setTimeout( () => {
     timeEvent.emit('notice', "subscription.get.currentTime is deleted");
     router.unbindSubscription('subscription.get.currentTime');
     router.unbindSubscription("subscription.get.randomValue");  // delete subscription dynamically
     router.unbindRoute("get/nhoge");    //delete route dynamically
 }, 30000);
+ * 
+ */
 

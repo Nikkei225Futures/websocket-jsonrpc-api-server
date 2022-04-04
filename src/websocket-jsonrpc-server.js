@@ -21,21 +21,12 @@ exports.Client = cl;
 exports.logger = logger;
 
 
-/**
- * start api server
- * @param {Number} portNum 
- * @returns 
- */
-function startServer(portNum) {
-    logger.writeLog(logger.logFile, `start server on port: ${portNum}`);
+const Https = require('https');
+const fs = require('fs');
+const HTTPSPORT = 443;
 
-    if (typeof portNum != "number") {
-        throw 'argument portNum should be number';
-    }
-
-    ws = new server({ port: portNum });
+function websocketHandler(ws){
     exports.ws = ws;
-
     const clients = require('./clients.js').clients;
 
     ws.on('connection', sock => {
@@ -90,6 +81,50 @@ function startServer(portNum) {
             clients.removeClient(clients.getClient(sock.id));
         });
     });
+
+}
+
+function startSecureServer(pathCert, pathKey){
+    logger.writeLog(logger.logFile, `start secure server`);
+
+    const httpsServer = Https.createServer({
+        key: fs.readFileSync(pathKey),
+        cert: fs.readFileSync(pathCert)
+    });
+
+    const ws = new server({
+        server: httpsServer
+    });
+
+    httpsServer.on('request', (req, res) => {
+        res.writeHead(200, {
+            'Content-Type': 'text/plain'
+        });
+        res.end('https conn');
+    });
+
+    websocketHandler(ws);
+
+    httpsServer.listen(HTTPSPORT);
+
+}
+
+/**
+ * start api server
+ * @param {Number} portNum 
+ * @returns 
+ */
+function startServer(portNum) {
+    logger.writeLog(logger.logFile, `start server on port: ${portNum}`);
+
+    if (typeof portNum != "number") {
+        throw 'argument portNum should be number';
+    }
+
+    ws = new server({ port: portNum });
+    websocketHandler(ws);
+    
 }
 exports.startServer = startServer;
+exports.startSecureServer = startSecureServer;
 
