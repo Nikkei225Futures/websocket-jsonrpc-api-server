@@ -1,6 +1,8 @@
 let dstLcl = "localhost";
 
 let svr = new WebSocket(`ws://${dstLcl}:9888`);
+//let svr = new WebSocket(`wss://${dstLcl}`);
+
 let log = document.getElementById("log");
 let res;
 
