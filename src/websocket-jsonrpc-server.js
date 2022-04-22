@@ -25,6 +25,10 @@ const Https = require('https');
 const fs = require('fs');
 const HTTPSPORT = 443;
 
+/**
+ * server handler
+ * @param {Websocket.Server} ws - instance of Websocket.Server
+ */
 function websocketHandler(ws){
     exports.ws = ws;
     const clients = require('./clients.js').clients;
@@ -84,6 +88,11 @@ function websocketHandler(ws){
 
 }
 
+/**
+ * start WSS server on port 443
+ * @param {String} pathCert - path of server certification
+ * @param {String} pathKey - path of key
+ */
 function startSecureServer(pathCert, pathKey){
     logger.writeLog(logger.logFile, `start secure server`);
 
@@ -111,8 +120,7 @@ function startSecureServer(pathCert, pathKey){
 
 /**
  * start api server
- * @param {Number} portNum 
- * @returns 
+ * @param {Number} portNum
  */
 function startServer(portNum) {
     logger.writeLog(logger.logFile, `start server on port: ${portNum}`);
@@ -125,6 +133,8 @@ function startServer(portNum) {
     websocketHandler(ws);
     
 }
+
+
 exports.startServer = startServer;
 exports.startSecureServer = startSecureServer;
 

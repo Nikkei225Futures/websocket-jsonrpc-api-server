@@ -54,8 +54,15 @@ const sendLog = logger.sendLog;
 //start logging, to write log, this is required
 logger.enableLogger();
 
+//argument of startSecureServer(pathCert, pathKey) is specified by path to key files.
+const pathCert = "./certs/selfCert.pem";
+const pathKey = "./certs/selfKey.pem";
+
 //start server on your port
-wjs.startServer(deployPort);
+//wjs.startServer(deployPort);
+
+//or start server as websocket secure(wss://)
+wjs.startSecureServer(pathCert, pathKey);
 
 //get router
 const router = wjs.router;
@@ -69,8 +76,14 @@ router.bindRoute("get/nhoge", (req) => {
         throw 'parameter n should be contained into params';
     }
 
+    if(isNaN(params.n)){
+        throw 'parameter n should be number';
+    }
+
     let msg = "";
     let n = Number(params.n);
+
+
     for(let i = 0; i < n; i++){
         msg += "hoge";
     }
@@ -108,13 +121,14 @@ setInterval( () => {
     timeEvent.emit('result');
 }, 1000);
 
-//unbind subscription and routes dynamically
+/**
 setTimeout( () => {
     timeEvent.emit('notice', "subscription.get.currentTime is deleted");
     router.unbindSubscription('subscription.get.currentTime');
     router.unbindSubscription("subscription.get.randomValue");  // delete subscription dynamically
     router.unbindRoute("get/nhoge");    //delete route dynamically
 }, 30000);
-
+ * 
+ */
 
 ```
