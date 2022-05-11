@@ -40,7 +40,14 @@ to support subscription, this api provide 3 default Route below
 
 # How to use
 
+## Installation
+this package is published on npm.  
 ``` 
+$ npm -i websocket-jsornpc-api-server
+```
+
+## Example of code
+``` js
 const deployPort = 9888;
 
 const { EventEmitter } = require('events');
