@@ -59,7 +59,7 @@ class Clients {
     /**
      * return client that has specified id in argument
      * @param {String} id - identifier of client
-     * @returns {Client} - instance of Client
+     * @returns {cl.Client} - instance of Client
      */
     getClient = function(id){
         if(typeof id != "string"){
@@ -69,7 +69,6 @@ class Clients {
         if(this.clients.hasOwnProperty(id)){
             return this.clients[id];
         }else{
-            console.log("false");
             return false;
         }
     }
