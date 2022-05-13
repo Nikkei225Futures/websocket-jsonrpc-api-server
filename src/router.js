@@ -107,7 +107,7 @@ class Router{
     /**
      * delete specified subscription from router
      * @param {String} sName - name of subscription
-     * @returns 
+     * @returns {Boolean} - if success, true. if fail, false.
      */
     unbindSubscription = function(sName){
         if(this.hasSubscription(sName)){
@@ -117,6 +117,8 @@ class Router{
 
             targetSubscription.destroy();
             delete this.subscriptions[sName];
+
+            return true;
         }else{
             logger.writeLog(errLogFile, `unbindSubscription: subscription(${sName} is not found.)`);
             return false;
