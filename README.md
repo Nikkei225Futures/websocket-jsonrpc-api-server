@@ -43,7 +43,7 @@ to support subscription, this api provide 3 default Route below
 ## Installation
 this package is published on npm.  
 ``` 
-$ npm -i websocket-jsornpc-api-server
+$ npm i websocket-jsornpc-api-server
 ```
 
 ## Example of code
