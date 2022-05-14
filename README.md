@@ -41,7 +41,7 @@ to support subscription, this api provide 3 default Route below
 # How to use
 
 ## Installation
-this package is published on npm.  
+this package is published on [npm](https://www.npmjs.com/package/websocket-jsonrpc-api-server).  
 ``` 
 $ npm i websocket-jsornpc-api-server
 ```
