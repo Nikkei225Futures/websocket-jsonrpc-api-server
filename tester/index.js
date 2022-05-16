@@ -63,7 +63,7 @@ const test1 = {
 const test2 = {
     "jsonrpc": "2.0",
     "method": "delete/subscriptions",
-    "id": 2,
+    "id": "qwrety",
     "params": {
         "subscriptions": ["get.randomValue"]
     }
