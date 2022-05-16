@@ -7,14 +7,10 @@ const EventEmitter = require('events');
 
 /**
  * class of subscription
- * caution: no argument to method is arrowed
+ * caution: no argument to method is allowed
  * @class
  */
 class Subscription{
-
-    #sName;
-    #method;
-    #subscribers = [];
 
     constructor(sName, method){
         if(typeof sName != "string"){
@@ -25,7 +21,7 @@ class Subscription{
             throw 'argument method should be Function';
         }
 
-        this.sName = "subscription." + sName;
+        this.sName = sName;
         this.subscribers = [];
         this.method = method;
         this.eventEmitter = undefined;
