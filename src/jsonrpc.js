@@ -4,15 +4,7 @@ exports.methodNotFound = -32601;
 exports.invalidParams = -32602;
 exports.internalError = -32603;
 
-class JsonRpcRequest{
-
-    #version;
-    #methodName;
-    #params;
-    #requesterId;
-    #isNotification;
-    #id;
-    
+class JsonRpcRequest{    
     constructor(msg, requesterId){
         if(!(msg instanceof Object)){
             throw 'unparseable message';

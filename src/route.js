@@ -1,10 +1,6 @@
 const { JsonRpcRequest } = require("./jsonrpc");
 
 class Route {
-
-    #rName;
-    #method;
-
     constructor(rName, method) {
         if (typeof rName != "string") {
             throw 'argument rName should be string';

@@ -16,10 +16,10 @@ const pathCert = "./certs/selfCert.pem";
 const pathKey = "./certs/selfKey.pem";
 
 //start server on your port
-//wjs.startServer(deployPort);
+wjs.startServer(deployPort);
 
 //or start server as websocket secure(wss://)
-wjs.startSecureServer(pathCert, pathKey);
+//wjs.startSecureServer(pathCert, pathKey);
 
 //get router
 const router = wjs.router;
