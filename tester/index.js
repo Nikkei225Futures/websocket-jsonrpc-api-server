@@ -56,16 +56,16 @@ const test1 = {
     "method": "register/subscriptions",
     "id": 1,
     "params": {
-        "subscriptions": ["subscription.get.randomValue"]
+        "subscriptions": ["get.randomValue"]
     }
 }
 
 const test2 = {
     "jsonrpc": "2.0",
     "method": "delete/subscriptions",
-    "id": 2,
+    "id": "qwrety",
     "params": {
-        "subscriptions": ["subscription.get.randomValue"]
+        "subscriptions": ["get.randomValue"]
     }
 }
 
@@ -74,7 +74,7 @@ const test3b = {
     "method": "register/subscriptions",
     "id": 3,
     "params": {
-        "subscriptions": ["subscription.get.randomValue"]
+        "subscriptions": ["get.randomValue"]
     }
 }
 

@@ -33,11 +33,7 @@ class JsonRpcRequest{
 
 
         if(msg.hasOwnProperty('id')){
-            if(typeof(msg.id) == "number"){
-                this.id = msg.id;
-            }else{
-                throw 'id should be Number';
-            }
+            this.id = msg.id;
         }else{
             this.isNotification = true;
         }
