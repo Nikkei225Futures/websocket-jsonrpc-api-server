@@ -70,7 +70,13 @@ function websocketHandler(ws){
                 }
 
                 if (!req.getIsNotification()) {
-                    router.sendResult(sock, req.getId(), res);
+                    if(res instanceof Promise){
+                        res.then( (val) => {
+                            router.sendResult(sock, req.getId(), val);
+                        });
+                    }else{
+                        router.sendResult(sock, req.getId(), res);
+                    }
                 }
 
             } else {
