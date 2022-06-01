@@ -74,6 +74,9 @@ function websocketHandler(ws){
                         res.then( (val) => {
                             router.sendResult(sock, req.getId(), val);
                         });
+                        res.catch((err) => {
+                            router.sendError(sock, req.getId(), err);
+                        });
                     }else{
                         router.sendResult(sock, req.getId(), res);
                     }
