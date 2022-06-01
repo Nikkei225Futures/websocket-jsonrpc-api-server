@@ -73,8 +73,8 @@ function websocketHandler(ws){
                     if(res instanceof Promise){
                         res.then( (val) => {
                             router.sendResult(sock, req.getId(), val);
-                        });
-                        res.catch((err) => {
+                        })
+                        .catch((err) => {
                             router.sendError(sock, req.getId(), err);
                         });
                     }else{
