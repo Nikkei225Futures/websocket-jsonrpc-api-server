@@ -1,6 +1,6 @@
 {
   "name": "websocket-jsonrpc-api-server",
-  "version": "2.4.4",
+  "version": "2.4.5",
   "description": "simple websocket api server with jsonrpc for node.js",
   "main": "websocket-jsonrpc-server.js",
   "scripts": {
