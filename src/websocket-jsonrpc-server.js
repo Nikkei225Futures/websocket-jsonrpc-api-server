@@ -71,11 +71,11 @@ function websocketHandler(ws){
 
                 if (!req.getIsNotification()) {
                     if(res instanceof Promise){
-                        res.then( (val) => {
+                        res.then(val => {
                             router.sendResult(sock, req.getId(), val);
                         })
-                        .catch((err) => {
-                            router.sendError(sock, req.getId(), err);
+                        .catch(err => {
+                            router.sendError(sock, req.getId(), jr.internalError,err);
                         });
                     }else{
                         router.sendResult(sock, req.getId(), res);
