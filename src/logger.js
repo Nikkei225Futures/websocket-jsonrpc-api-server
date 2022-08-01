@@ -1,6 +1,7 @@
-const logFile = "./logs/logger.log";
-const errLogFile = "./logs/error.log";
-const sendLog = "./logs/send.log";
+const dirLogFiles = "./logs/";
+const logFile =  dirLogFiles + "logger.log";
+const errLogFile = dirLogFiles + "error.log";
+const sendLog = dirLogFiles + "send.log";
 
 exports.logFile = logFile;
 exports.errLogFile = errLogFile;
@@ -40,7 +41,9 @@ function enableLogger(){
     isAllowed = true;
     const fs = require("fs");
     try{
-        fs.mkdirSync('logs');
+        if(!fs.existsSync(dirLogFiles)){
+            fs.mkdirSync('logs');
+        }
     }catch(e){
         writeLog(errLogFile, e.toString());
     }
